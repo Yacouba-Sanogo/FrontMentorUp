@@ -1,49 +1,28 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   {
-    path: 'home',
-    loadComponent: () => import('./home/home.page').then((m) => m.HomePage),
-  },
-  {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'auth/login', // Redirige vers la page de login par défaut
     pathMatch: 'full',
   },
   {
-    path: 'login',
-    loadComponent: () => import('./features/login/login.page').then( m => m.LoginPage)
+    path: 'auth',
+    // Lazy loading pour le module d'authentification
+    loadChildren: () => import('./features/auth/auth.routes').then((m) => m.routes),
   },
   {
-    path: 'register',
-    loadComponent: () => import('./features/register/register.page').then( m => m.RegisterPage)
+    path: 'parrain',
+    // Lazy loading pour l'espace du parrain, protégé par le guard
+    loadChildren: () => import('./features/parrain-space/parrain.routes').then((m) => m.routes),
+    canActivate: [authGuard], // Seuls les utilisateurs connectés peuvent accéder
   },
   {
-    path: 'login',
-    loadComponent: () => import('./features/auth/login/login.page').then( m => m.LoginPage)
+    path: 'ecole',
+    // Lazy loading pour l'espace de l'école, protégé par le guard
+    loadChildren: () => import('./features/ecole-space/ecole.routes').then((m) => m.routes),
+    canActivate: [authGuard], // Seuls les utilisateurs connectés peuvent accéder
   },
-  {
-    path: 'register',
-    loadComponent: () => import('./features/auth/register/register.page').then( m => m.RegisterPage)
-  },
-  {
-    path: 'dashboard',
-    loadComponent: () => import('./features/parrain-space/dashboard/dashboard.page').then( m => m.DashboardPage)
-  },
-  {
-    path: 'enfants-list',
-    loadComponent: () => import('./features/parrain-space/enfants-list/enfants-list.page').then( m => m.EnfantsListPage)
-  },
-  {
-    path: 'paiement',
-    loadComponent: () => import('./features/parrain-space/paiement/paiement.page').then( m => m.PaiementPage)
-  },
-  {
-    path: 'dashboard',
-    loadComponent: () => import('./features/ecole-space/dashboard/dashboard.page').then( m => m.DashboardPage)
-  },
-  {
-    path: 'depenses-add',
-    loadComponent: () => import('./features/ecole-space/depenses-add/depenses-add.page').then( m => m.DepensesAddPage)
-  },
+  // Ajoutez d'autres routes de haut niveau ici si nécessaire
 ];

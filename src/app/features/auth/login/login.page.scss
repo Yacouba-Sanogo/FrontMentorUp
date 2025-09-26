@@ -1,0 +1,221 @@
+// Vos styles, adaptés pour être responsives et fonctionner avec Ionic
+ion-content {
+  --background: url('/assets/images/banner.png') no-repeat center center / cover;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; // Aligne les éléments en haut
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding-top: 20px; 
+}
+
+.container-background {
+  background-color: #02929A;
+  width: 100%;
+  height: 217px;
+  border-bottom-left-radius: 50%;
+  border-bottom-right-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  flex-shrink: 0; 
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.15);
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    z-index: 2;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    transform: rotate(1deg) scale(1.05);
+    width: 100%;
+    height: 100%;
+    background: #037F85;
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    z-index: 0;
+    opacity: 0.8;
+  }
+}
+
+.logo {
+  position: absolute;
+  bottom: -75px;
+  z-index: 20;
+  width: 150px;
+  height: 150px;
+  background-color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  img {
+    width: 90%;
+    height: auto;
+  }
+}
+
+.details {
+  width: 90%;
+  max-width: 700px;
+  background-color: white;
+  padding: 20px;
+  padding-top: 95px; // Espace pour le logo
+  border-radius: 10px;
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: -75px; 
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+ul {
+  background-color: #02929AA6;
+  border-radius: 50px;
+  height: 40px;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  padding: 0;
+  margin-bottom: 25px;
+}
+
+ul li {
+  width: 50%;
+  height: 100%;
+  background-color: transparent;
+  border-radius: 50px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: white;
+  font-weight: 500;
+}
+
+ul li.active {
+  background-color: #3B82F6;
+}
+
+.input {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+}
+
+.input label {
+  color: gray;
+  font-size: 15px;
+  font-weight: 400;
+  margin-bottom: 6px;
+}
+
+.input input {
+  width: 100%;
+  height: 50px;
+  background-color: #02929A2B;
+  border: none;
+  border-radius: 10px;
+  color: black;
+  padding-left: 50px;
+  font-size: 16px;
+}
+
+.input ion-icon {
+  position: absolute;
+  left: 15px;
+  top: 58%;
+  color: #3B82F6;
+  font-size: 22px;
+}
+
+.input ion-icon.password-toggle {
+  left: auto;
+  right: 15px;
+  cursor: pointer;
+  color: #888;
+}
+
+.cont {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+  margin-top: 15px;
+  margin-bottom: 25px;
+}
+
+.cont .check {
+  display: flex;
+  align-items: center;
+}
+
+.cont .check input {
+  margin-right: 10px;
+}
+.cont .check label {
+  color: #555;
+}
+
+.cont a {
+  color: #02929A;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+button[type="submit"] {
+  background-color: #F97116;
+  width: 200px;
+  height: 45px;
+  border-radius: 50px;
+  box-shadow: 0 10px 15px rgba(249, 115, 22, 0.3);
+  border: none;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* LA CORRECTION FINALE POUR LE TRIANGLE */
+.border {
+  width: 0;
+  height: 0;
+  border-left: 350px solid transparent; // Moitié de la largeur max de .details
+  border-right: 350px solid transparent; // Moitié de la largeur max de .details
+  border-bottom: 100px solid rgba(2, 146, 154, 0.65);
+  position: relative;
+  z-index: 5;
+  margin-top: -10px;
+  // S'assure que le triangle est responsive
+  @media (max-width: 700px) {
+    border-left-width: 45vw; // 45% de la largeur de l'écran
+    border-right-width: 45vw; // 45% de la largeur de l'écran
+  }
+}
+

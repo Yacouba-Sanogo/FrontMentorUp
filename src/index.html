@@ -1,26 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
+<ion-content>
+  <div class="container">
+    <div class="container-background">
+      <div class="logo">
+        <img src="assets/icon/logo.png" alt="MentorUp Logo" 
+             onerror="this.src='https://placehold.co/100x100/FFF/02929A?text=M'">
+      </div>
+    </div>
 
-<head>
-  <meta charset="utf-8" />
-  <title>Ionic App</title>
+    <form class="details" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <ul>
+        <li class="active">
+          Se connecter
+        </li>
+        <li routerLink="/auth/register">
+          S'inscrire
+        </li>
+      </ul>
 
-  <base href="/" />
+      <div class="input">
+        <label>Email ou Numéro de téléphone</label>
+        <ion-icon name="mail-outline"></ion-icon>
+        <input type="text" placeholder="Email ou Numéro de téléphone..." formControlName="email">
+      </div>
+      <div class="input" style="margin-top: 20px;">
+        <label>Mot de passe</label>
+        <ion-icon name="lock-closed-outline"></ion-icon>
+        <input [type]="isPasswordVisible ? 'text' : 'password'" placeholder="Mot de passe..." formControlName="password">
+        <ion-icon 
+          class="password-toggle"
+          [name]="isPasswordVisible ? 'eye-outline' : 'eye-off-outline'" 
+          (click)="togglePasswordVisibility()">
+        </ion-icon>
+      </div>
+      <div class="cont">
+        <div class="check">
+          <input type="checkbox" id="remember-me" formControlName="rememberMe">
+          <label for="remember-me">Se souvenir de moi</label>
+        </div>
+        <a routerLink="#">Mot de passe oublié</a>
+      </div>
+      
+      <button type="submit" [disabled]="loginForm.invalid">Connexion</button>
+    </form>
+    
+    <!-- La forme triangulaire est ici -->
+    <div class="border"></div>
+  </div>
+</ion-content>
 
-  <meta name="color-scheme" content="light dark" />
-  <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="format-detection" content="telephone=no" />
-  <meta name="msapplication-tap-highlight" content="no" />
-
-  <link rel="icon" type="image/png" href="assets/icon/favicon.png" />
-
-  <!-- add to homescreen for ios -->
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-</head>
-
-<body>
-  <app-root></app-root>
-</body>
-
-</html>
