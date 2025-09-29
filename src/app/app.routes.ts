@@ -24,5 +24,9 @@ export const routes: Routes = [
     loadChildren: () => import('./features/ecole-space/ecole.routes').then((m) => m.routes),
     canActivate: [authGuard], // Seuls les utilisateurs connectés peuvent accéder
   },
+  {
+    path: 'login',
+    loadComponent: () => import('./features/auth/login/login.page').then( m => m.LoginPage)
+  },
   // Ajoutez d'autres routes de haut niveau ici si nécessaire
 ];

@@ -1,53 +1,41 @@
 <ion-content>
   <div class="container">
     <div class="container-background">
-      <div class="logo">
-        <img src="assets/icon/logo.png" alt="MentorUp Logo" 
-             onerror="this.src='https://placehold.co/100x100/FFF/02929A?text=M'">
-      </div>
-    </div>
-
-    <!-- Le formulaire est maintenant connecté à la logique TypeScript -->
-    <form class="details" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <ul>
-        <li class="active">Se connecter</li>
-        <!-- Ce lien est maintenant un vrai lien de navigation -->
-        <li routerLink="/auth/register">S'inscrire</li>
-      </ul>
-
-      <div class="input">
-        <label>Email ou Numéro de téléphone</label>
-        <!-- Utilisation des icônes Ionic -->
-        <ion-icon name="mail-outline"></ion-icon>
-        <input type="text" placeholder="Email ou Numéro de téléphone..." formControlName="email">
-      </div>
-
-      <div class="input" style="margin-top: 20px;">
-        <label>Mot de passe</label>
-        <ion-icon name="lock-closed-outline"></ion-icon>
-        <input [type]="isPasswordVisible ? 'text' : 'password'" placeholder="Mot de passe..." formControlName="password">
-        <!-- Icône cliquable pour voir/cacher le mot de passe -->
-        <ion-icon 
-          class="password-toggle"
-          [name]="isPasswordVisible ? 'eye-outline' : 'eye-off-outline'" 
-          (click)="togglePasswordVisibility()">
-        </ion-icon>
-      </div>
-
-      <div class="cont">
-        <div class="check">
-          <input type="checkbox" id="remember-me" formControlName="rememberMe">
-          <label for="remember-me">Se souvenir de moi</label>
+        <div class="logo">
+          <img src="assets/logo.png" alt="">
         </div>
-        <a routerLink="#">Mot de passe oublié</a>
       </div>
-      
-      <!-- Le bouton est maintenant désactivé si le formulaire n'est pas valide -->
-      <button type="submit" [disabled]="loginForm.invalid">Connexion</button>
-    </form>
-    
-    <!-- La forme triangulaire du bas, comme vous l'avez conçue -->
-    <div class="border"></div>
-  </div>
-</ion-content>
+      <div class="details">
+        <ul>
+          <li class="active">
+            Se connecter
+          </li>
+          <li>
+            S'inscrire
+          </li>
+        </ul>
 
+        <div class="input">
+          <label for=""> Email ou Numéro de téléphone</label>
+          <i class="fa-solid fa-envelope"></i>
+          <input type="text" placeholder="Email ou Numéro de téléphone...">
+        </div>
+        <div class="input" style="margin-top: 20px;">
+          <label for="">Mot de passe</label>
+          <i class="fa-solid fa-lock"></i>
+          <input type="password" placeholder="Mot de passe...">
+        </div>
+       <div class="cont">
+         <div class="check">
+          <input type="checkbox" name="" id="">
+          <span>Se souvenir de moi</span>
+        </div>
+        <a href="#">Mot de passe oublié</a>
+       </div>
+       <button> Connexion </button>
+      </div>
+      <div class="border"></div>
+  </div>
+  
+
+</ion-content>
