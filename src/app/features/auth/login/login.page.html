@@ -2,40 +2,52 @@
   <div class="container">
     <div class="container-background">
         <div class="logo">
-          <img src="assets/logo.png" alt="">
+          <!-- J'utilise votre chemin d'image -->
+          <img src="assets/logo.png" alt="Logo MentorUp">
         </div>
       </div>
-      <div class="details">
+      <!-- Le [formGroup] connecte ce formulaire à notre `loginForm` dans le .ts -->
+      <form class="details" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <ul>
-          <li class="active">
+          <!-- Le [class.active] et le (click) animent les onglets -->
+          <li [class.active]="isLogin" (click)="toggleAuthMode(true)">
             Se connecter
           </li>
-          <li>
+          <li [class.active]="!isLogin" (click)="toggleAuthMode(false)">
             S'inscrire
           </li>
         </ul>
 
         <div class="input">
-          <label for=""> Email ou Numéro de téléphone</label>
-          <i class="fa-solid fa-envelope"></i>
-          <input type="text" placeholder="Email ou Numéro de téléphone...">
+          <label> Email ou Numéro de téléphone</label>
+          <!-- J'utilise ion-icon comme c'est la norme dans Ionic -->
+          <ion-icon name="mail-outline"></ion-icon>
+          <!-- Le formControlName connecte cet input au champ 'email' du .ts -->
+          <input type="text" placeholder="Email ou Numéro de téléphone..." formControlName="email">
         </div>
         <div class="input" style="margin-top: 20px;">
-          <label for="">Mot de passe</label>
-          <i class="fa-solid fa-lock"></i>
-          <input type="password" placeholder="Mot de passe...">
+          <label>Mot de passe</label>
+          <ion-icon name="lock-closed-outline"></ion-icon>
+          <!-- Le [type] change dynamiquement, et le formControlName connecte au champ 'password' -->
+          <input [type]="showPassword ? 'text' : 'password'" placeholder="Mot de passe..." formControlName="password">
+          <!-- Le (click) appelle la fonction pour changer la visibilité -->
+          <ion-icon 
+            class="password-toggle"
+            [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" 
+            (click)="togglePasswordVisibility()">
+          </ion-icon>
         </div>
        <div class="cont">
          <div class="check">
-          <input type="checkbox" name="" id="">
-          <span>Se souvenir de moi</span>
-        </div>
-        <a href="#">Mot de passe oublié</a>
+           <!-- J'ai utilisé ion-checkbox pour une meilleure intégration avec Ionic -->
+           <ion-checkbox formControlName="rememberMe" labelPlacement="end">Se souvenir de moi</ion-checkbox>
+         </div>
+         <a href="#">Mot de passe oublié</a>
        </div>
-       <button> Connexion </button>
-      </div>
+       <!-- Le [disabled] désactive le bouton si le formulaire est invalide -->
+       <button type="submit" [disabled]="loginForm.invalid"> Connexion </button>
+      </form>
       <div class="border"></div>
   </div>
-  
-
 </ion-content>
+
