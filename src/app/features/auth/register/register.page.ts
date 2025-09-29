@@ -1,9 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { IonicModule, LoadingController, ToastController } from '@ionic/angular';
-// Pas besoin d'importer AuthService ici pour le moment, sauf si on y ajoute une méthode register()
+import { IonicModule } from '@ionic/angular';
+
+// Validateur custom pour vérifier que les mots de passe correspondent
+export function mustMatch(controlName: string, matchingControlName: string) {
+  return (formGroup: FormGroup) => {
+    const control = formGroup.controls[controlName];
+    const matchingControl = formGroup.controls[matchingControlName];
+
+    if (matchingControl.errors && !matchingControl.errors['mustMatch']) {
+      return;
+    }
+
+    if (control.value !== matchingControl.value) {
+      matchingControl.setErrors({ mustMatch: true });
+    } else {
+      matchingControl.setErrors(null);
+    }
+  };
+}
 
 @Component({
   selector: 'app-register',
@@ -14,14 +31,13 @@ import { IonicModule, LoadingController, ToastController } from '@ionic/angular'
 })
 export class RegisterPage implements OnInit {
   registerForm!: FormGroup;
-  showPassword = false;
-  showConfirmPassword = false;
+  // Déclaration des variables pour la visibilité des mots de passe
+  isPasswordVisible = false;
+  isConfirmPasswordVisible = false; // <-- LA VARIABLE MANQUANTE EST AJOUTÉE ICI
 
   constructor(
     private formBuilder: FormBuilder,
-    private router: Router,
-    private loadingController: LoadingController,
-    private toastController: ToastController
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -33,59 +49,33 @@ export class RegisterPage implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required],
       role: ['', Validators.required]
-    }, { validators: this.passwordMatchValidator });
+    }, {
+      validator: mustMatch('password', 'confirmPassword')
+    });
   }
 
-  // Validateur custom pour vérifier que les mots de passe correspondent
-  passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
-    const password = control.get('password')?.value;
-    const confirmPassword = control.get('confirmPassword')?.value;
-    return password === confirmPassword ? null : { mismatch: true };
+  // Méthode pour le premier champ mot de passe
+  togglePasswordVisibility(): void {
+    this.isPasswordVisible = !this.isPasswordVisible;
   }
 
-  togglePasswordVisibility() {
-    this.showPassword = !this.showPassword;
+  // <-- LA FONCTION MANQUANTE EST AJOUTÉE ICI
+  // Méthode pour le champ de confirmation du mot de passe
+  toggleConfirmPasswordVisibility(): void {
+    this.isConfirmPasswordVisible = !this.isConfirmPasswordVisible;
   }
 
-  toggleConfirmPasswordVisibility() {
-    this.showConfirmPassword = !this.showConfirmPassword;
-  }
-
-  navigateToLogin() {
+  navigateToLogin(): void {
     this.router.navigate(['/auth/login']);
   }
 
-  async onSubmit() {
+  onSubmit(): void {
     if (this.registerForm.invalid) {
-      // Affiche une erreur si les mots de passe ne correspondent pas
-      if(this.registerForm.errors?.['mismatch']) {
-        this.presentToast('Les mots de passe ne correspondent pas.', 'danger');
-      } else {
-        this.presentToast('Veuillez remplir tous les champs correctement.', 'warning');
-      }
+      console.log('Le formulaire est invalide.');
       return;
     }
-
-    const loading = await this.loadingController.create({ message: 'Création du compte...', });
-    await loading.present();
-
-    console.log('Données du formulaire:', this.registerForm.value);
-
-    // TODO: Appeler le service d'authentification pour créer le compte
-    setTimeout(() => {
-      loading.dismiss();
-      this.presentToast('Compte créé avec succès !', 'success');
-      this.router.navigate(['/auth/login']);
-    }, 1500);
-  }
-
-  async presentToast(message: string, color: string) {
-    const toast = await this.toastController.create({
-      message: message,
-      duration: 3000,
-      color: color,
-      position: 'top'
-    });
-    toast.present();
+    console.log('Formulaire soumis avec succès:', this.registerForm.value);
+    // Logique d'inscription à ajouter ici
   }
 }
+

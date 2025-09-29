@@ -1,59 +1,203 @@
-// On réutilise 90% du style de la page de connexion pour la cohérence
-@import "../login/login.page.scss";
+// Ce style est basé sur votre code de la page de connexion,
+// avec les ajustements nécessaires pour le formulaire d'inscription.
 
-// Styles spécifiques pour le formulaire d'inscription
-.details {
-  // On s'assure que le padding est bien géré
+// --- Base (copiée de votre style de connexion) ---
+ion-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  --background: url('/assets/banner.png') no-repeat center center / cover;
+}
+
+.container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  padding: 20px 0;
+  min-height: 100%;
   box-sizing: border-box;
+}
 
+.container-background {
+  background-color: #02929A;
+  width: 100%;
+  height: 217px;
+  border-bottom-left-radius: 50%;
+  border-bottom-right-radius: 50%;
+  position: absolute;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(255, 255, 255, 0.15);
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    z-index: 2;
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    transform: rotate(1deg) scale(1.05);
+    width: 100%; height: 100%;
+    background: #037F85;
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    z-index: 0;
+    opacity: 0.8;
+  }
+}
+
+.logo{
+  position: absolute;
+  top: 140px;
+  z-index: 20;
+  width: 150px;
+  height: 150px;
+}
+
+.details{
+  width: 90%;
+  max-width: 700px;
+  height: auto;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 70px; // Ajusté pour l'inscription
+}
+
+ul{
+  background-color: #02929AA6;
+  border-radius: 50px;
+  height: 40px;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  width: 90%;
+  max-width: 400px;
+  padding: 0;
+  margin-bottom: 20px;
+
+  li {
+    width: 50%;
+    height: 100%;
+    background-color: transparent;
+    padding: 10px;
+    border-radius: 50px;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  li.active{
+    background-color: #3B82F6;
+  }
+}
+
+// --- Correction pour le formulaire d'inscription ---
+.form-grid {
+  display: grid;
+  width: 100%;
+  max-width: 500px;
+  gap: 0 20px;
+  // Mobile: 1 colonne
+  grid-template-columns: 1fr;
+}
+// Desktop: 2 colonnes
+@media (min-width: 576px) {
   .form-grid {
-    display: grid;
-    // On utilise des colonnes flexibles qui peuvent rétrécir
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px 20px;
-    width: 100%;
-    // On retire la largeur maximale d'ici pour la mettre sur le conteneur principal
-    margin-bottom: 20px;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.input, .role-select {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin-top: 15px;
+
+  label {
+    color: gray;
+    font-size: 15px;
+    font-weight: 400;
+    margin-bottom: 6px;
   }
 
-  .role-select {
+  input, select {
     width: 100%;
-    margin-bottom: 25px;
-    position: relative; // Pour la flèche custom
-
-    select {
-      width: 100%;
-      height: 50px;
-      background-color: #02929A2B;
-      border: none;
-      border-radius: 10px;
-      color: #333;
-      padding-left: 50px;
-      box-sizing: border-box;
-      appearance: none;
-      font-size: 16px;
-      cursor: pointer;
-
-      &:invalid {
-        color: gray;
-      }
-    }
-
-    &::after {
-        content: '▼';
-        font-size: 12px;
-        color: #3B82F6;
-        position: absolute;
-        right: 20px;
-        top: 62%;
-        transform: translateY(-50%);
-        pointer-events: none;
-    }
+    height: 50px;
+    background-color: #02929A2B;
+    border: none;
+    border-radius: 10px; // Votre rayon de bordure
+    color: black;
+    padding-left: 50px;
+    box-sizing: border-box;
   }
 
-  // On s'assure que tous les conteneurs d'input prennent toute la largeur disponible
-  .input {
-    width: 100%;
+  ion-icon {
+    position: absolute;
+    left: 20px;
+    top: 62%;
+    transform: translateY(-50%);
+    color: #3B82F6;
+    pointer-events: none;
+    font-size: 20px;
   }
+  
+  ion-icon.password-toggle {
+    pointer-events: auto;
+    left: auto;
+    right: 20px;
+    cursor: pointer;
+  }
+}
+
+.role-select {
+  width: 100%;
+  max-width: 500px;
+  select {
+    appearance: none;
+  }
+  &::after {
+    content: '▼';
+    position: absolute;
+    right: 20px;
+    top: 62%;
+    transform: translateY(-50%);
+    color: #3B82F6;
+    pointer-events: none;
+  }
+}
+
+button{
+  background-color: #F97316;
+  width: 200px;
+  height: 40px;
+  border-radius: 50px;
+  border: none;
+  color: white;
+  margin-top: 20px;
+}
+
+.border{
+  display: none;
 }
 
