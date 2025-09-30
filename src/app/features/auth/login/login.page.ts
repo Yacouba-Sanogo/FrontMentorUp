@@ -15,8 +15,8 @@ import { User } from 'src/app/shared/model/user.model';
 })
 export class LoginPage implements OnInit {
   loginForm!: FormGroup;
-  isLogin = true; // Pour gérer l'onglet actif
-  showPassword = false; // Pour la visibilité du mot de passe
+  isLogin = true;
+  showPassword = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -27,7 +27,6 @@ export class LoginPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    // Initialise le formulaire avec les champs correspondants à votre HTML
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
@@ -35,38 +34,32 @@ export class LoginPage implements OnInit {
     });
   }
 
-  // Gère la navigation et l'état des onglets
   toggleAuthMode(mode: boolean) {
     this.isLogin = mode;
     if (!this.isLogin) {
-      // Si l'utilisateur clique sur "S'inscrire", on navigue
       this.router.navigate(['/auth/register']);
     }
   }
 
-  // Affiche ou cache le mot de passe
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
   }
 
-  // Logique de soumission du formulaire (inchangée)
   async onSubmit() {
     if (this.loginForm.invalid) {
       return;
     }
-
     const loading = await this.loadingController.create({ message: 'Connexion...', });
     await loading.present();
-
     const { email, password } = this.loginForm.value;
 
     this.authService.login(email, password).subscribe({
       next: (user: User) => {
         loading.dismiss();
         if (user.role === 'ROLE_PARRAIN') {
-          this.router.navigate(['/parrain/dashboard']);
+          this.router.navigate(['/parrain']);
         } else if (user.role === 'ROLE_SCHOOL') {
-          this.router.navigate(['/ecole/dashboard']);
+          this.router.navigate(['/ecole']);
         }
       },
       error: (err: any) => {

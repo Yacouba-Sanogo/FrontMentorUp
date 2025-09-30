@@ -12,7 +12,7 @@ export interface Parrain extends User {
 }
 
 export interface Ecole extends User {
-  nomEcole: string;
+   nomEcole: string;
   adresse: string;
 }
 

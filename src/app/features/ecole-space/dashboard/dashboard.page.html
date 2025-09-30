@@ -1,13 +1,132 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>dashboard</ion-title>
-  </ion-toolbar>
-</ion-header>
+<!-- 
+  =====================================================================================
+  FICHIER HTML POUR LE DASHBOARD DE L'ÉCOLE
+  -------------------------------------------------------------------------------------
+  Ce fichier contient toute la structure visuelle de la page :
+  - L'en-tête avec le menu latéral (sidebar)
+  - Le contenu principal avec la barre de recherche, les cartes et le graphique
+  J'utilise les composants Ionic (<ion-header>, <ion-content>, etc.) pour une 
+  intégration parfaite et un look natif sur mobile.
+  =====================================================================================
+-->
+<ion-split-pane contentId="main-content">
+  <!-- 
+    =================================
+    MENU LATÉRAL (SIDEBAR)
+    =================================
+  -->
+  <ion-menu contentId="main-content" type="overlay">
+    <ion-content>
+      <div class="sidebar-header">
+        <ion-avatar>
+          <!-- Utilise une icône par défaut si l'image ne charge pas -->
+          <img alt="Logo de l'école" src="assets/icon/logo.png" onerror="this.src='https://placehold.co/80x80/02929A/FFFFFF?text=E'"/>
+        </ion-avatar>
+        <h3>Association Espoirs</h3>
+      </div>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">dashboard</ion-title>
-    </ion-toolbar>
-  </ion-header>
-</ion-content>
+      <ion-list id="inbox-list">
+        <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
+          <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
+            <ion-icon aria-hidden="true" slot="start" [name]="p.icon"></ion-icon>
+            <ion-label>{{ p.title }}</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+      
+      <!-- Bouton de déconnexion -->
+      <div class="logout-button">
+        <ion-item lines="none" button (click)="logout()">
+          <ion-icon slot="start" name="log-out-outline"></ion-icon>
+          <ion-label>Déconnexion</ion-label>
+        </ion-item>
+      </div>
+    </ion-content>
+  </ion-menu>
+
+  <!-- 
+    =================================
+    CONTENU PRINCIPAL DE LA PAGE
+    =================================
+  -->
+  <div class="ion-page" id="main-content">
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Accueil</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content [fullscreen]="true">
+      <div class="main-container">
+        <!-- Vague décorative du haut -->
+        <div class="header-wave">
+            <img src="assets/logo.png" alt="MentorUp Logo" class="header-logo">
+        </div>
+
+        <!-- Section de recherche et filtre -->
+        <div class="search-filter-container">
+            <ion-searchbar placeholder="Rechercher..."></ion-searchbar>
+            <ion-button fill="clear" class="filter-button">
+                <ion-icon slot="icon-only" name="filter-outline"></ion-icon>
+                Filtre
+            </ion-button>
+        </div>
+
+        <!-- 
+          =================================
+          CARTES STATISTIQUES (SCROLLABLES)
+          =================================
+          La classe "scrolling-wrapper" permet le défilement horizontal.
+        -->
+        <div class="scrolling-wrapper">
+          <div class="stat-card" *ngFor="let card of statCards">
+            <ion-icon [name]="card.icon"></ion-icon>
+            <div class="card-value">{{ card.value }}</div>
+            <div class="card-title">{{ card.title }}</div>
+          </div>
+        </div>
+
+        <!-- 
+          =================================
+          CARTES D'ACTION
+          =================================
+        -->
+        <div class="action-cards-container">
+          <div class="action-card" *ngFor="let card of actionCards">
+            <ion-icon [name]="card.icon"></ion-icon>
+            <div class="action-card-value" *ngIf="card.value">{{ card.value }}</div>
+            <div class="action-card-title">{{ card.title }}</div>
+          </div>
+        </div>
+
+        <!-- 
+          =================================
+          GRAPHIQUE DES DÉPENSES
+          =================================
+          On utilise la directive [view] pour la taille, [results] pour les données, etc.
+          (options...) sont les différentes configurations pour le graphique.
+        -->
+        <div class="chart-container">
+          <h3>Répartition des dépenses par catégorie</h3>
+          <ngx-charts-bar-vertical
+            [view]="view"
+            [scheme]="colorScheme"
+            [results]="chartData"
+            [gradient]="false"
+            [xAxis]="true"
+            [yAxis]="true"
+            [legend]="false"
+            [showXAxisLabel]="true"
+            [showYAxisLabel]="true"
+            xAxisLabel="Catégories"
+            yAxisLabel="Pourcentage (%)">
+          </ngx-charts-bar-vertical>
+        </div>
+      </div>
+    </ion-content>
+  </div>
+</ion-split-pane>
+
